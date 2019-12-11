@@ -7,7 +7,7 @@ int power(int a, int n){
   return t;
 }
 
-int recursive(int c, int d, int n){
+int algorithm(int c, int d, int n){
   int m = c, s = 1;
   while(m<n){
     if(s==d)
@@ -17,7 +17,7 @@ int recursive(int c, int d, int n){
   }
   int a = d%s,
       b = d/s;
-  return ( power(c, a) * recursive( m%n, b, n ) )%n;
+  return ( power(c, a) * algorithm( m%n, b, n ) )%n;
 }
 
 int main(int argc, int *argv[]){
@@ -28,5 +28,5 @@ int main(int argc, int *argv[]){
 
   int C = ciphertext, D = d, N = n;
   
-  printf("%d\n", recursive(C, D, N));
+  printf("%d\n", algorithm(C, D, N));
 }
