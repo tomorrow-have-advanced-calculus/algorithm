@@ -26,7 +26,7 @@ int algorithm(int c, int d, int n){
 }
 
 int main(int argc, int *argv[]){
-  int p = 11, q = 37;
+  int p = 11, q = 37; // two prime number
   int n = 407, phin = 360;
   int e = 7, d = 103;
   int message = 41, ciphertext = 178;
