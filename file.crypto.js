@@ -1,41 +1,27 @@
-const fs = require("fs")
-const key = {
-  private:parseInt(process.argv[3])||27463,
-  public:parseInt(process.argv[3])||7,
-  modulus:parseInt(process.argv[4])||32399,
-};
-let file = fs.readFileSync(process.argv[5]);
-
-if(process.argv[2]=="encrypte")
-  encrypte();
-else if(process.argv[2]=="decrypte")
-  decrypte();
-
-function encrypte(){
-  const result = new Buffer(file.length*4);
-
-  for(let i=0;i<file.length;i++){
-    let Byte = file[i];
-    let r = algorithm(Byte, key.public, key.modulus);
-    for(let j=0;j<4;j++){
-      result[i*4+j] = r%0xff;
-      r = ~~(r/0xff);
-    }
-  }
-  fs.writeFileSync(process.argv[6], result);
+const fs = require("fs");
+const key = parseInt(process.argv[3]), 
+      modulus = parseInt(process.argv[4]);
+const file = fs.readFileSync(process.argv[5]);
+const storage = process.argv[6];
+if(process.argv[2]=="encrypte"){
+  
+}else if(process.argv[2]=="decrypte"){
+  decrypte(file, key, modulus, storage);
 }
-function decrypte(){
+
+function decrypte(file, d, n, storage){
   const result = new Buffer(file.length/4);
   for(let i=0;i<result.length;i++){
-    let Byte = 0;
+    let buf = 0;
     for(let j=3;j>-1;j--){
-      Byte*=0xff;
-      Byte+=file[i*4+j];
+      buf<<=8;
+      buf+=file[i*4+j];
+      
     }
-    let r = algorithm(Byte, key.private, key.modulus);
-    result[i] = r;
+    buf = algorithm(buf, d, n);
+    result[i] = buf;
   }
-  fs.writeFileSync(process.argv[6], result);
+  fs.writeFileSync(storage, result);
 }
 
 function algorithm(c, d, n){
