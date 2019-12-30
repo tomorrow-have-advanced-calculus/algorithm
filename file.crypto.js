@@ -4,9 +4,24 @@ const key = parseInt(process.argv[3]),
 const file = fs.readFileSync(process.argv[5]);
 const storage = process.argv[6];
 if(process.argv[2]=="encrypte"){
-  
+  encrypte(file, key, modulus, storage);
 }else if(process.argv[2]=="decrypte"){
   decrypte(file, key, modulus, storage);
+}
+
+function encrypte(file, e, n, storage){
+  const result = new Buffer(file.length*4);
+  for(let i=0;i<file.length;i++){
+    let buf = file[i];
+    buf = algorithm(buf, e, n);
+    for(let j=0;j<4;j++){
+      process.stdout.write((buf&0xff)+" ");
+      result[i*4+j] = (buf&0xff)
+      buf>>=8;
+    }
+    console.log("");
+  }
+  fs.writeFileSync(storage, result);
 }
 
 function decrypte(file, d, n, storage){
